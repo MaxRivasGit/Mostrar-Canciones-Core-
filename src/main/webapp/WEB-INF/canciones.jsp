@@ -22,5 +22,6 @@
         </li>
     </c:forEach>
 </ul>
+    <a href="/canciones/formulario/agregar">Agregar Nueva Cancion</a>
 </body>
 </html>
