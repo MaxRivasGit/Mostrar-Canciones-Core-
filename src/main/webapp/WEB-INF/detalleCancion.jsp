@@ -16,9 +16,11 @@
             <p>Artista: ${cancion.artista}</p>
             <p>Álbum: ${cancion.album}</p>
             <p>Género: ${cancion.genero}</p>
+            <p>Idioma: ${cancion.idioma}</p>
             </li>
 
             <button> <a href="<c:url value='/canciones' />">Volver</a></button>
+            <button> <a href="<c:url value='/canciones/formulario/editar/${cancion.id}' />">Editar Canción</a></button>
 
 </body>
 </html>
