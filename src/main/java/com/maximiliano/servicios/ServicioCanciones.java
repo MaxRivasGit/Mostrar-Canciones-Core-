@@ -31,6 +31,18 @@ public class ServicioCanciones {
     }
 
     public Cancion actualizaCancion(Cancion cancion) {
-        return this.repositorioCanciones.save(cancion);
+        if (this.repositorioCanciones.existsById(cancion.getId())) {
+            return this.repositorioCanciones.save(cancion);
+        } else {
+            return null;
+        }
+    }
+
+    public Cancion eliminaCancion(Long id) {
+        Cancion cancionAEliminar = this.repositorioCanciones.findById(id).orElse(null);
+        if (cancionAEliminar != null) {
+            this.repositorioCanciones.deleteById(id);
+        }
+        return cancionAEliminar;
     }
 }

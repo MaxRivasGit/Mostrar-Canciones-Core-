@@ -21,6 +21,7 @@
 
             <button> <a href="<c:url value='/canciones' />">Volver</a></button>
             <button> <a href="<c:url value='/canciones/formulario/editar/${cancion.id}' />">Editar Canción</a></button>
+            <button> <a href="<c:url value='/canciones/eliminar/${cancion.id}' />">Eliminar Canción</a></button>
 
 </body>
 </html>
