@@ -23,5 +23,6 @@
     </c:forEach>
 </ul>
     <a href="/canciones/formulario/agregar">Agregar Nueva Cancion</a>
+    <a href="/artistas">Ir a Artistas</a>
 </body>
 </html>

@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import com.maximiliano.modelos.Artista;
 import com.maximiliano.modelos.Cancion;
+import com.maximiliano.servicios.ServicioArtistas;
 import com.maximiliano.servicios.ServicioCanciones;
 
 import jakarta.validation.Valid;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -22,12 +25,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ControladorCanciones {
-
     @Autowired
     private final ServicioCanciones servicioCanciones;
-    
-    public ControladorCanciones(ServicioCanciones servicioCanciones) {
+
+    private final ServicioArtistas servicioArtistas;
+
+
+    public ControladorCanciones(ServicioCanciones servicioCanciones, ServicioArtistas servicioArtistas) {
         this.servicioCanciones = servicioCanciones;
+        this.servicioArtistas = servicioArtistas;
     }
 
     @GetMapping("/canciones")
@@ -43,16 +49,22 @@ public class ControladorCanciones {
     }
 
     @GetMapping("/canciones/formulario/agregar")
-    public String formularioAgregarCancion(@ModelAttribute ("nuevaCancion") Cancion nuevaCancion) {
-        return "agregarCancion";
-    }
+    public String formularioAgregarCancion(Model model) {
+    model.addAttribute("nuevaCancion", new Cancion());
+    model.addAttribute("listaArtistas", servicioArtistas.obtenerTodosLosArtistas()); 
+    return "agregarCancion";
+}
 
     @PostMapping("/canciones/procesa/formulario")
     public String procesarAgregarCancion(@Valid @ModelAttribute("nuevaCancion") Cancion nuevaCancion,
-                                        BindingResult validaciones) {
+                                        BindingResult validaciones, @RequestParam ("artistaId") Long artistaId) {
         if (validaciones.hasErrors()) {
             return "agregarCancion";
             
+        }
+        Artista artista = this.servicioArtistas.obtenerArtistaPorId(artistaId);
+        if (artista != null) {
+            nuevaCancion.setArtista(artista);
         }
         this.servicioCanciones.agregarCancion(nuevaCancion);
         
